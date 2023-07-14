@@ -1,3 +1,9 @@
-import { Facebook } from 'react-content-loader'
+import Skeleton from '@mui/material/Skeleton';
 
-export const Loader = () => <Facebook />
+export const Loader = () => {
+  return (
+    <>
+      {/* <Skeleton variant="rectangular" width={210} height={118} /> */}
+    </>
+  )
+}

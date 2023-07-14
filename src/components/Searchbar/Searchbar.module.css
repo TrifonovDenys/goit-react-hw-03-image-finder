@@ -1,0 +1,23 @@
+.search_block{
+  background: #000;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80px;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background: linear-gradient(90deg, rgba(95, 191, 188, 1) 0%, rgba(128, 199, 255, 1) 50%, rgba(0, 112, 255, 1) 100%);
+}
+.input{
+  border-top: none;
+  border-right: none;
+  border-left: none;
+  background: transparent;
+  width: 200px;
+  color: azure;
+}
+.input:focus {
+  outline: none;
+}
