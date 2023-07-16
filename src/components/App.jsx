@@ -6,10 +6,10 @@ import { Loader } from "./Loader/Loader";
 
 axios.defaults.baseURL = "https://pixabay.com/api/?q=cat&page=1&key=36775781-ef40f42b03ba5b079902920a8&image_type=photo&orientation=horizontal&per_page=12";
 
-const options = {
-  baseURL: `https://pixabay.com/api/`
+// const options = {
+//   baseURL: `https://pixabay.com/api/`
 
-}
+// }
 
 const ImageGallery = ({ articles }) => (
   <ul>
