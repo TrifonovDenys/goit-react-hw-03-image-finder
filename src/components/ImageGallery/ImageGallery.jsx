@@ -1,26 +1,11 @@
-import { Component } from "react";
-import { getImg } from "services/api";
+// import { Component } from "react";
+// import { getImg } from "services/api";
 import { ImageGalleryItem } from "components/ImageGalleryItem/ImageGalleryItem";
 import css from "./ImageGallery.module.css";
+import PropTypes from 'prop-types'
 
-export class ImageGallery extends Component {
-  state = {
-    gallery: [],
-  };
+export const ImageGallery = ({gallery, showModal}) => {
 
-  async componentDidUpdate(prevProps, prevState) {
-    if (prevProps.searchText !== this.props.searchText) {
-      await getImg(this.props.searchText).then((gallery) =>
-        this.setState({ gallery: gallery })
-      );
-
-      this.props.showButton();
-    }
-  }
-
-  render() {
-    const { gallery } = this.state;
-    console.log(gallery);
     return (
       <>
         <ul className={css.ImageGallery}>
@@ -30,7 +15,7 @@ export class ImageGallery extends Component {
                 <ImageGalleryItem
                   key={image.id}
                   data={image}
-                  showModal={this.props.showModal}
+                  showModal={showModal}
                 />
               );
             })}
@@ -38,4 +23,7 @@ export class ImageGallery extends Component {
       </>
     );
   }
+
+ImageGallery.propTypes = {
+  showModal: PropTypes.func.isRequired,
 }

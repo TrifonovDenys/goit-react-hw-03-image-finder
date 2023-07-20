@@ -4,10 +4,11 @@ export const Loader = () => {
   return (
     <>
       <Oval
+        justifyContent='center'
         height={80}
         width={80}
         color="#4fa94d"
-        wrapperStyle={{}}
+        wrapperStyle={{justifyContent: 'center'}}
         wrapperClass=""
         visible={true}
         ariaLabel='oval-loading'
