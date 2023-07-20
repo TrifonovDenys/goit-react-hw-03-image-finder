@@ -5,17 +5,21 @@ import { ImageGallery} from './ImageGallery/ImageGallery'
 import { Modal } from './Modal/Modal'
 import {Button}  from './Button/Button'
 import css from './App.module.css'
-import api from "../services/api";
+import { getImg } from 'services/api';
 
 
 export class App extends Component {
   state = {
+    page: 1,
     searchText: '',
     isLoading: false,
     isShowModal: false,
     modalShow: {},
     loadMore: false,
+    gallery: [],
   };
+
+
 
   hendleInput = (searchText) => {
     this.setState({ searchText })
@@ -29,10 +33,29 @@ export class App extends Component {
   closeModal = () => {
     this.setState({isShowModal: false})
   }
+
+  showButton = () => {
+    this.setState({loadMore: true})
+  }
+
+
+ handleLoadMore = async () => {
+  const { page, searchText, gallery } = this.state;
+  this.setState({ isLoading: true });
+  console.log(gallery);
+
+  await getImg(searchText, page + 1).then((newGallery) => {
+    this.setState((prevState) => ({
+      gallery: [...prevState.gallery, ...newGallery],
+      page: prevState.page + 1,
+      isLoading: false,
+    }));
+  });
+};
  
 
   render() {
-    const { searchText, isLoading, loadMore, isShowModal, modalShow } = this.state;
+    const { searchText, isLoading, loadMore, isShowModal, modalShow , gallery } = this.state;
     return (
       <div className={css.App}>
         <Searchbar hendleInput={this.hendleInput} />
@@ -40,10 +63,12 @@ export class App extends Component {
           <ImageGallery
             searchText={searchText}
             showModal={this.showModal}
-            loadMore = {loadMore}
+            loadMore={loadMore}
+            showButton={this.showButton}
+            gallery={gallery}
         />}
         {isShowModal && (<Modal closeModal={this.closeModal} img={modalShow}></Modal>)}
-        {loadMore && <Button/>}
+        {loadMore && <Button onClick={this.handleLoadMore} />}
       </div>
     );
   }
