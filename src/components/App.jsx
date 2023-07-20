@@ -2,51 +2,67 @@ import React, { Component } from "react";
 import axios from "axios";
 import {Searchbar} from "./Searchbar/Searchbar"
 import { Loader } from "./Loader/Loader";
-// import {ImageGallery} from "./ImageGallery/ImageGallery"
+import { ImageGallery} from './ImageGallery/ImageGallery'
+import { Modal } from './Modal/Modal'
+import {Button}  from './Button/Button'
+import css from './App.module.css'
+import api from "../services/api";
 
 axios.defaults.baseURL = "https://pixabay.com/api/?q=cat&page=1&key=36775781-ef40f42b03ba5b079902920a8&image_type=photo&orientation=horizontal&per_page=12";
 
-// const options = {
-//   baseURL: `https://pixabay.com/api/`
-
-// }
-
-const ImageGallery = ({ articles }) => (
-  <ul>
-    {articles.map(({ id, previewURL}) => (
-      <li key={id}>
-        <img src={previewURL} alt="tree, cat, animal"/>
-      </li>
-    ))}
-  </ul>
-);
-
 export class App extends Component {
   state = {
+    searchText: '',
     articles: [],
     isLoading: false,
+    isShowModal: false,
+    imgToShow: '',
+    error: null,
   };
 
   hendleInput = (e) => {
     console.log(e.target.value);
   }
 
-  async componentDidMount() {
-    this.setState({ isLoading: true })
-    const response = await axios.get();
-    this.setState({
-      articles: response.data.hits,
-      isLoading: false,
-    });
+
+  handleSearch = (searchText) => {
+    this.setState({ searchText })
   }
 
+
+  async componentDidMount() {
+    this.setState({ isLoading: true })
+    try {
+      const articles = api.getImg("react");
+      this.setState({ articles });
+    } catch (error) {
+      this.setState({ error });
+    } finally {
+      this.setState({ isLoading: false });
+    }
+  }
+
+  showModal = (e) => {
+    this.setState({
+      isShowModal: true,
+      imgToShow: e.target.ariaModal,
+    })
+    console.log(this.state);
+  }
+
+  closeModal = () => {
+    this.setState({isShowModal: false})
+  }
+ 
+
   render() {
-    const { articles, isLoading } = this.state;
+    const { isLoading } = this.state;
     return (
-      <div>
-        <Searchbar onInput={this.hendleInput} />
-        {isLoading ? <Loader /> : <ImageGallery articles={articles}/>}
-        
+      <div className={css.App}>
+        <Searchbar handleSearch={this.handleSearch} />
+        {isLoading ? <Loader /> : <ImageGallery searchText={this.state.searchText} showModal={this.showModal} />}
+        {this.state.isShowModal && (<Modal closeModal={this.closeModal} img={this.state.imgToShow}></Modal>)}
+        <Button/>
       </div>
     );
   }
