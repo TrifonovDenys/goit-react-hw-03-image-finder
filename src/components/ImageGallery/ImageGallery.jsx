@@ -1,12 +1,12 @@
 import { Component } from "react"
-import { getImg } from 'services/getImg';
+import { getImg } from 'services/api';
 import { ImageGalleryItem } from "components/ImageGalleryItem/ImageGalleryItem"
 import css from "./ImageGallery.module.css"
 
 export class ImageGallery extends Component {
 
   state = {
-    gellery: null,
+    gellery: [],
   }
 
  componentDidUpdate(prevProps, prevState) {

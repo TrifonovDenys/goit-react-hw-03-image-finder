@@ -1,28 +1,21 @@
 import axios from 'axios';
 
 const BASEURL = 'https://pixabay.com/api/'
-const API_KEY = '&key=36775781-ef40f42b03ba5b079902920a8'
+const API_KEY = '36775781-ef40f42b03ba5b079902920a8'
 
 export const getImg = async searchText => {
-  const options = {
-    method: 'get',
-    image_type: '&image_type=photo',
-    orientation: '&orientation=horizontal',
-    searchText: `?q=${searchText}`,
-    page: `&page=1`,
-    per_page: `&per_page=100`,
-  };
-  return axios(`${BASEURL}${options.searchText}${options.page}${API_KEY}${options.image_type}${options.orientation}${options.per_page}`)
-    .then(rep => {
-      console.log(rep.data.hits );
-      return rep.data.hits 
-    })
-    .catch(error => {
-    console.log(error.message);
-    // Notiflix.Notify.failure('Bad request')
-  });
+const response = await axios.get(BASEURL, {
+  params: {
+    q: searchText,
+    page: 1,
+    key: API_KEY,
+    image_type: "photo",
+    orientation: "horizontal",
+    per_page: 12,
+  },
+}).then(resp => resp.data.hits)
+
+  return response
 }
 
-export default {
-  getImg,
-};
+export default getImg
