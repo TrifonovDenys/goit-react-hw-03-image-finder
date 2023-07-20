@@ -11,29 +11,19 @@ import api from "../services/api";
 export class App extends Component {
   state = {
     searchText: '',
-    articles: [],
     isLoading: false,
     isShowModal: false,
-    imgToShow: '',
-    error: null,
-    loadMore: false
+    modalShow: {},
+    loadMore: false,
   };
 
-  hendleInput = (e) => {
-    console.log(e.target.value);
-  }
-
-
-  handleSearch = (searchText) => {
+  hendleInput = (searchText) => {
     this.setState({ searchText })
   }
 
-  showModal = (e) => {
-    this.setState({
-      isShowModal: true,
-      imgToShow: e.target.ariaModal,
-    })
-    console.log(this.state);
+  showModal = modalShow => {
+    this.setState({isShowModal: true})
+    this.setState({ modalShow});
   }
 
   closeModal = () => {
@@ -42,16 +32,17 @@ export class App extends Component {
  
 
   render() {
-    const { isLoading, loadMore, isShowModal } = this.state;
+    const { searchText, isLoading, loadMore, isShowModal, modalShow } = this.state;
     return (
       <div className={css.App}>
-        <Searchbar handleSearch={this.handleSearch} />
-        {isLoading ? <Loader /> : <ImageGallery
-          searchText={this.state.searchText}
-          showModal={this.showModal}
-          showLoadMore = {loadMore}
+        <Searchbar hendleInput={this.hendleInput} />
+        {isLoading ? <Loader /> :
+          <ImageGallery
+            searchText={searchText}
+            showModal={this.showModal}
+            loadMore = {loadMore}
         />}
-        {isShowModal && (<Modal closeModal={this.closeModal} img={this.state.imgToShow}></Modal>)}
+        {isShowModal && (<Modal closeModal={this.closeModal} img={modalShow}></Modal>)}
         {loadMore && <Button/>}
       </div>
     );

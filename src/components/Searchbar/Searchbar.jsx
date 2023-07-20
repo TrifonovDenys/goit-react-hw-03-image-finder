@@ -13,9 +13,9 @@ export class Searchbar extends Component  {
 
   handleSubmit = (e) => {
     e.preventDefault()
-    this.props.handleSearch(this.state.value)
-
+    this.props.hendleInput(this.state.value)
   }
+  
   render() {
     return (
       <>

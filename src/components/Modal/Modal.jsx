@@ -15,10 +15,11 @@ export class Modal extends Component {
   }
 
   render() {
+    const { largeImageURL, tags } = this.props.img;
     return (
       <div className={css.overlay} onClick={this.handlePressESC}>
         <div className={css.modal}>
-          <img src={this.props.img} alt="" />
+          <img src={largeImageURL} alt={tags} />
         </div>
       </div>
     )

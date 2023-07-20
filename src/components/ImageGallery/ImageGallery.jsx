@@ -11,17 +11,18 @@ export class ImageGallery extends Component {
 
  componentDidUpdate(prevProps, prevState) {
     if (prevProps.searchText !== this.props.searchText) {
-      getImg(this.props.searchText).then(gellery => this.setState({gellery: gellery}))
-    }
+      getImg(this.props.searchText).then(gellery => this.setState({ gellery: gellery }))
+   }
   }
 
   render() {
     const { gellery } = this.state
+    console.log(gellery);
     return (
       <>
         <ul className={css.ImageGallery}>
-          {gellery && gellery.map(({ previewURL, id, largeImageURL }) => {
-            return <ImageGalleryItem key={id} previewURL={previewURL} largeImageURL={largeImageURL} showModal={this.props.showModal}/>
+          {gellery && gellery.map(image => {
+            return <ImageGalleryItem key={image.id} data={image} showModal={this.props.showModal}/>
           })}
         </ul>
       </>
